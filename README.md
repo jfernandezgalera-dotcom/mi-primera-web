@@ -1,6 +1,6 @@
 # mi-primera-web
 
-Página de presentación profesional de una sola página.
+Página de presentación profesional de **Juan Fernández — Tutor en La Transformateca**.
 
 - **Tecnología:** HTML + CSS (sin dependencias, sin instalación).
 - **Cómo verla:** abre `index.html` en cualquier navegador.
