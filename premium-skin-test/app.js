@@ -7,11 +7,9 @@
    CONFIGURACIÓN
    --------------------------------------------------------- */
 const CONFIG = {
-  // ▸ https://script.google.com/macros/s/AKfycbybFIb2nq32pAMGdlm9WqsfmOeTbmYWiR_3lpe7txfS4DgnddFXwBil5dhXxT_ylOzN/exec
-  //   (Apps Script → Implementar → Aplicación web → copiar URL "/exec")
-  //   Ejemplo: 'https://script.google.com/macros/s/AKfy.....xxxx/exec'
-  //   Déjala vacía y el test funciona igual: guarda en localStorage.
-  SHEETS_WEBAPP_URL: '',
+  // ▸ URL de la Web App de Google Apps Script (Implementar → Aplicación web → "/exec").
+  //   Si la dejas vacía (''), el test funciona igual pero guarda solo en localStorage.
+  SHEETS_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbybFIb2nq32pAMGdlm9WqsfmOeTbmYWiR_3lpe7txfS4DgnddFXwBil5dhXxT_ylOzN/exec',
 
   // Enlace a la política de privacidad (placeholder, cámbialo por el real).
   PRIVACY_URL: '#politica-de-privacidad', // // TODO revisar: poner URL real
