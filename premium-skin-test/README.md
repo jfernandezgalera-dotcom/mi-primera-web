@@ -11,7 +11,8 @@ Al terminar, el test:
 - calcula el **tipo de piel** (Grasa / Mixta / Seca) según la puntuación de P1–P15,
 - muestra la página de resultado con su texto y la línea `Tu puntuación: {puntos}`,
 - construye la **rutina recomendada** de productos Ringana a partir de P20–P23,
-- y **guarda todas las respuestas en una Google Sheet** (sin backend propio).
+- **guarda todas las respuestas en una Google Sheet** (sin backend propio),
+- y te **avisa por email** con toda la información en cada respuesta.
 
 ## Archivos
 
@@ -20,7 +21,7 @@ Al terminar, el test:
 | `index.html` | Estructura de la página (barra de progreso, contenedor, botón Atrás). |
 | `styles.css` | Estética cosmética: serif en títulos, pastilla negra, mobile-first. |
 | `app.js` | Toda la lógica: pantallas, validación, puntuación, rutina y envío. |
-| `google-apps-script.gs` | Código para pegar en Apps Script (guardado en la hoja). |
+| `google-apps-script.gs` | Código para pegar en Apps Script (guardado en la hoja + aviso por email). |
 
 ---
 
@@ -47,22 +48,46 @@ No hace falta servidor ni instalación. Abre `index.html` en el navegador
 
 ## 3. Pegar y desplegar el Apps Script
 
-1. En la Google Sheet: **Extensiones → Apps Script**.
-2. Borra lo que haya en `Code.gs` y **pega el contenido de
-   `google-apps-script.gs`**.
-3. Guarda (💾).
-4. **Implementar → Nueva implementación**.
-5. Icono del engranaje → tipo **Aplicación web**.
-6. Configura:
-   - **Ejecutar como:** Yo (tu cuenta).
-   - **Quién tiene acceso:** **Cualquiera**.
-7. **Implementar**. La primera vez te pedirá **autorizar permisos**: acepta
-   (puede aparecer un aviso de "app no verificada" → *Configuración avanzada
-   → Ir a (nombre del proyecto)*).
-8. Copia la **URL de la aplicación web** (termina en `/exec`).
+1. Con la Google Sheet abierta, arriba en el menú pulsa **Extensiones →
+   Apps Script**. Se abre una pestaña nueva (el editor de Apps Script).
+2. Verás un archivo `Code.gs` con unas líneas de ejemplo
+   (`function myFunction() {}`). **Bórralo todo** (selecciona con
+   `Ctrl/Cmd + A` y suprime).
+3. Abre `google-apps-script.gs` de este proyecto, copia **todo** su
+   contenido y **pégalo** en el editor.
+4. *(Opcional, para el email)* en la línea `var EMAIL_DESTINO = '...'`
+   pon el correo donde quieres recibir los avisos. Déjalo con `''` si no
+   quieres emails. → Ver la **sección 5**.
+5. Pulsa el icono de **guardar** (💾) o `Ctrl/Cmd + S`. Ponle nombre al
+   proyecto si te lo pide (p. ej. *Premium Skin Test*).
+6. Arriba a la derecha: botón azul **Implementar → Nueva implementación**.
+7. Pulsa el **icono del engranaje** ⚙️ (junto a "Seleccionar tipo") y elige
+   **Aplicación web**.
+8. Rellena:
+   - **Descripción:** lo que quieras (p. ej. `v1`).
+   - **Ejecutar como:** **Yo** (tu cuenta de Google).
+   - **Quién tiene acceso:** **Cualquiera**. ⚠️ Este paso es clave: si
+     pones "Solo yo", la web no podrá guardar nada.
+9. Pulsa **Implementar**.
+10. **Autorizar permisos** (solo la primera vez):
+    - Pulsa **Autorizar acceso** → elige tu cuenta de Google.
+    - Si sale la pantalla *"Google no ha verificado esta aplicación"*: pulsa
+      **Configuración avanzada** → **Ir a (nombre del proyecto) (no seguro)**
+      → **Permitir**. Es tu propio script, es seguro.
+    - Concede los permisos (acceso a tus hojas de cálculo y a enviar correo
+      en tu nombre, si activaste el email).
+11. Se muestra la **URL de la aplicación web**: es larga y **termina en
+    `/exec`**. Cópiala con el botón **Copiar**.
 
-> Truco: abre esa URL `/exec` en el navegador. Debe responder
-> `{"ok":true,"msg":"Premium Skin Test endpoint activo."}`.
+> **Comprobar que funciona:** pega esa URL `/exec` en el navegador. Debe
+> responder `{"ok":true,"msg":"Premium Skin Test endpoint activo."}`.
+
+> **Si más adelante cambias el código `.gs`:** no basta con guardar.
+> Ve a **Implementar → Gestionar implementaciones**, pulsa el **lápiz**
+> (editar) de tu implementación, en *Versión* elige **Nueva versión** y
+> **Implementar**. Así la URL sigue siendo la misma pero con el código
+> nuevo. (Si creas una implementación *nueva* en vez de actualizar, la URL
+> cambia y tendrías que volver a pegarla en `app.js`.)
 
 ---
 
@@ -87,7 +112,50 @@ nueva en la hoja.
 
 ---
 
-## 5. Desplegar / embeber la web
+## 5. Recibir un email con cada respuesta
+
+El aviso por correo **ya está incluido** en `google-apps-script.gs`: no
+necesitas nada más (usa `MailApp`, el servicio de correo que Google trae de
+serie). Cada vez que alguien termina el test, te llega un email con toda la
+información: contacto, puntuación, tipo de piel, rutina recomendada y todas
+las respuestas.
+
+**Cómo activarlo:**
+
+1. En el editor de Apps Script, arriba del archivo busca esta línea:
+
+   ```js
+   var EMAIL_DESTINO = 'j.fernandezgalera@gmail.com'; // ← cámbiala si quieres otra
+   ```
+
+2. Pon entre las comillas el correo donde quieres recibir los avisos.
+   Para desactivar los emails, déjalo vacío: `var EMAIL_DESTINO = '';`.
+
+3. Guarda (💾) y **actualiza la implementación** (Implementar → Gestionar
+   implementaciones → lápiz → Nueva versión → Implementar). Ver el aviso al
+   final de la sección 3.
+
+4. La **primera vez** que se ejecute el envío de correo, Google te pedirá
+   un permiso extra (*"Enviar correo electrónico en tu nombre"*). Ya lo
+   habrás aceptado al autorizar en la sección 3; si no, acéptalo.
+
+**Detalles útiles:**
+
+- El **asunto** del email es, por ejemplo:
+  `Nuevo Premium Skin Test — Ana García · Piel Mixta`.
+- El campo **responder a** (`reply-to`) apunta al email del lead, así que si
+  le das a *Responder* escribes directamente a la persona.
+- Si el envío del correo fallara por lo que sea, **la respuesta se guarda
+  igual en la hoja** (el email nunca bloquea el guardado).
+- **Límite de Google:** las cuentas Gmail gratuitas permiten enviar unos
+  **100 correos/día** desde Apps Script (las de Workspace, 1.500). De sobra
+  para captación de leads, pero tenlo en cuenta.
+- ¿No te llega? Revisa la carpeta de **spam** la primera vez y marca el
+  remitente como "no es spam".
+
+---
+
+## 6. Desplegar / embeber la web
 
 Es un sitio estático. Cualquiera de estas opciones vale:
 
