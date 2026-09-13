@@ -7,7 +7,7 @@
    CONFIGURACIÓN
    --------------------------------------------------------- */
 const CONFIG = {
-  // ▸ Pega aquí la URL de tu Web App de Google Apps Script.
+  // ▸ https://script.google.com/macros/s/AKfycbybFIb2nq32pAMGdlm9WqsfmOeTbmYWiR_3lpe7txfS4DgnddFXwBil5dhXxT_ylOzN/exec
   //   (Apps Script → Implementar → Aplicación web → copiar URL "/exec")
   //   Ejemplo: 'https://script.google.com/macros/s/AKfy.....xxxx/exec'
   //   Déjala vacía y el test funciona igual: guarda en localStorage.
