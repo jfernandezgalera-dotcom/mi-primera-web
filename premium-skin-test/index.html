@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Skin Test</title>
+  <meta name="description" content="Diagnóstico profesional de piel · Lorena Navarro. Test de tipo de piel con cosmética natural Ringana." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Barra de progreso -->
+  <div class="progress" id="progress" hidden>
+    <div class="progress__bar" id="progressBar"></div>
+  </div>
+
+  <main class="wrap">
+    <!-- Enlace Atrás -->
+    <button type="button" class="back" id="backBtn" hidden>← Atrás</button>
+
+    <!-- Aquí se renderiza cada pantalla -->
+    <div id="app" aria-live="polite"></div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
