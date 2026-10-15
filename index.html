@@ -334,7 +334,10 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwTyiLsg2rPnXtToMllIgB
 
 
 /* =====================================================================
-   DATOS DEL TEST — sacados literalmente de "cuestionario-v3-y-plan-de-montaje.md"
+   DATOS DEL TEST — basados en "cuestionario-v3-y-plan-de-montaje.md".
+   La redacción de varias preguntas se aclaró para que el test valga
+   igual para hábitos, cambios o conversaciones, no solo para proyectos.
+   La LÓGICA de puntuación (qué opción suma a qué contador) no cambia.
    ===================================================================== */
 
 const INTRO = {
@@ -356,20 +359,21 @@ const QUESTIONS = [
   },
   {
     id: 'q1', type: 'choice', score: { type: 'zona' },
-    template: '«{eso}», ahora mismo, ¿dónde está?',
+    template: '«{eso}», ahora mismo, ¿en qué punto está?',
+    help: 'Primero, en qué punto está de verdad hoy — no dónde te gustaría que estuviera.',
     options: [
-      { key: 'A', label: 'Solo en mi cabeza' },
-      { key: 'B', label: 'Empezado, a medias' },
-      { key: 'C', label: 'Hecho, o casi, y ahí sigue' }
+      { key: 'A', label: 'Solo es una idea o una intención. No he dado un paso real.' },
+      { key: 'B', label: 'Lo he empezado o intentado, pero se ha quedado a medias.' },
+      { key: 'C', label: 'En el fondo ya está, o casi — ya lo hago, o ya lo he abordado por encima — pero no termina de salir ni de sostenerse.' }
     ]
   },
   {
     id: 'q2', type: 'choice', score: { type: 'zona' },
-    template: 'En los últimos seis meses, ¿«{eso}» ha llegado a alguien?',
+    template: 'En los últimos seis meses, ¿«{eso}» ha pasado de verdad, o ha llegado a alguien?',
     options: [
-      { key: 'A', label: 'No, porque no ha existido nunca fuera de mí' },
-      { key: 'B', label: 'Alguien sabe que ando con ello, pero no ha visto nada' },
-      { key: 'C', label: 'Está listo, o casi, y no lo he puesto delante de nadie' }
+      { key: 'A', label: 'No, sigue siendo solo un propósito mío' },
+      { key: 'B', label: 'Alguien sabe que quiero hacerlo, pero no he hecho nada real' },
+      { key: 'C', label: 'Ya lo hago, o casi, pero en privado y sin que cuente para nadie' }
     ]
   },
   {
@@ -378,30 +382,32 @@ const QUESTIONS = [
     options: [
       { key: 'A', label: 'No me llego a poner' },
       { key: 'B', label: 'Me pongo y acabo en otra cosa' },
-      { key: 'C', label: 'Avanzo, pero nunca lo doy por bueno' }
+      { key: 'C', label: 'Avanzo, pero nunca me parece suficiente' }
     ]
   },
   {
     id: 'q4', type: 'choice', score: { type: 'zona' },
     template: 'Lo que más se te acumula es…',
+    help: 'De todo lo que arrancas o imaginas, ¿en qué fase se queda la mayoría?',
     options: [
       { key: 'A', label: 'Intenciones' },
       { key: 'B', label: 'Cosas a medias' },
-      { key: 'C', label: 'Cosas terminadas que nadie ha visto' }
+      { key: 'C', label: 'Cosas hechas que no he llegado a sostener ni a que cuenten' }
     ]
   },
   {
     id: 'q5', type: 'choice', score: { type: 'forma' },
-    template: 'Llega el momento de dar «{eso}» por hecho y ponerlo delante de alguien. Y no lo haces. Lo que pasa es que…',
+    template: 'Imagina que llega el momento de ir en serio con «{eso}» — de hacerlo de verdad, no solo intentarlo. Y no lo haces. ¿Qué haces en su lugar?',
     options: [
       { key: 'A', label: 'Me quedo quieto y lo aplazo' },
       { key: 'B', label: 'Me voy a hacer otra cosa' },
-      { key: 'C', label: 'Lo enseño, pero a medias, o rebajado, o a quien no cuenta' }
+      { key: 'C', label: 'Lo hago, pero a medias, flojito, o de una forma que no cuenta' }
     ]
   },
   {
     id: 'q6', type: 'choice', score: { type: 'instinto', weight: 1 },
     template: 'Lo que más te frena es…',
+    help: 'Ahora, contra qué compite — qué hay al otro lado cuando no te pones.',
     options: [
       { key: 'A', label: 'Lo que me costaría: tiempo, dinero, estabilidad' },
       { key: 'B', label: 'Lo que pensarían los que me conocen' },
@@ -410,7 +416,8 @@ const QUESTIONS = [
   },
   {
     id: 'q7', type: 'choice', score: { type: 'instinto', weight: 1 },
-    template: 'Si tuvieras que sacrificar algo para que «{eso}» salga adelante, lo que más te costaría sería…',
+    template: 'Si tuvieras que renunciar a algo para hacer «{eso}» de verdad, lo que más te costaría sería…',
+    help: '¿Qué de lo que hoy tienes te costaría más soltar?',
     options: [
       { key: 'A', label: 'Perder seguridad' },
       { key: 'B', label: 'Que me miren distinto' },
@@ -421,16 +428,16 @@ const QUESTIONS = [
     id: 'q8', type: 'choice', score: { type: 'instinto', weight: 2 },
     template: 'Cuando dejas algo a medias, normalmente es porque…',
     options: [
-      { key: 'A', label: 'Dejó de compensar' },
+      { key: 'A', label: 'Dejó de merecer la pena el esfuerzo' },
       { key: 'B', label: 'Me dio apuro que lo vieran' },
       { key: 'C', label: 'Apareció algo que me atraía más' }
     ]
   },
   {
     id: 'q9', type: 'choice', score: { type: 'instinto', weight: 2 },
-    template: 'Lo que le devuelve la vida a algo tuyo es…',
+    template: 'Cuando un proyecto o un propósito tuyo se apaga, lo que vuelve a engancharte es…',
     options: [
-      { key: 'A', label: 'Ver que es viable' },
+      { key: 'A', label: 'Ver que puede funcionar de verdad' },
       { key: 'B', label: 'Que alguien de fuera lo valore' },
       { key: 'C', label: 'Que vuelva a ser emocionante' }
     ]
@@ -463,11 +470,11 @@ const QUESTIONS = [
   },
   {
     id: 'q13', type: 'text', field: 'ultima', required: false,
-    label: 'La última vez que algo tuyo llegó a otra persona, ¿qué sentiste justo después?'
+    label: 'La última vez que algo tuyo llegó a otra persona —o que diste un paso real con ello—, ¿qué sentiste justo después?'
   },
   {
     id: 'q14', type: 'choiceList', field: 'sentido',
-    template: 'Si no quedara nadie más en el mundo a quien enseñar «{eso}», ¿lo seguirías haciendo?',
+    template: 'Si nadie fuera a saber nunca que hiciste «{eso}», ni a reconocértelo, ¿lo harías igual?',
     options: [
       'Sí, lo haría igual',
       'No lo sé',
